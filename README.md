@@ -1,182 +1,146 @@
-# Tech Challenge FIAP – Análise do E-commerce Brasileiro (Olist)
+# Tech Challenge Fase 2 — Classificação de Qualidade de Vinhos com Machine Learning
 
-**Pós-Tech em Data Analytics · FIAP**
+**PosTech FIAP — Data Analytics | Grupo 21**
+
+> Utilizando dados físico-químicos para prever a qualidade de vinhos e apoiar decisões no processo produtivo.
 
 ---
 
 ## Objetivo
 
-Este projeto tem como objetivo analisar o desempenho do e-commerce brasileiro utilizando dados reais da Olist, com foco em identificar padrões de comportamento, eficiência operacional e fatores que impactam a geração de receita.
+Desenvolver um modelo de classificação capaz de prever a qualidade de um vinho com base em suas características físico-químicas. A variável `quality` foi transformada em classificação binária:
 
-A partir dessa análise, busca-se gerar insights acionáveis para apoiar a tomada de decisão estratégica e orientar recomendações de negócio para investidores e executivos.
-
----
-
-## Contexto do Dataset
-
-Foi utilizado o dataset público da Olist, contendo aproximadamente **100 mil pedidos** realizados entre 2016 e 2018 em diferentes regiões do Brasil. O dataset oferece uma visão completa da jornada de compra: do cadastro do cliente à avaliação pós-entrega.
-
-Fonte: [Olist – Brazilian E-Commerce Public Dataset (Kaggle)](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+- **Alta Qualidade (1):** nota ≥ 7
+- **Baixa/Média Qualidade (0):** nota < 7
 
 ---
 
-## Estrutura dos Dados
+## Sobre o Dataset
 
-### Tabelas originais utilizadas
+- **Fonte:** [Wine Quality Dataset — Kaggle](https://www.kaggle.com/datasets/yasserh/wine-quality-dataset)
+- **Arquivo:** `WineQT.csv` — 1.143 amostras de vinho tinto
+- **Features:** 11 características físico-químicas + variável alvo `quality`
 
-| Arquivo | Descrição |
+| Feature | Descrição |
 |---|---|
-| `olist_customers_dataset.csv` | Dados dos clientes (localização e identificação) |
-| `olist_orders_dataset.csv` | Informações dos pedidos (status e datas) |
-| `olist_order_items_dataset.csv` | Itens por pedido (produto, vendedor e preço) |
-| `olist_order_payments_dataset.csv` | Formas e valores de pagamento |
-| `olist_order_reviews_dataset.csv` | Avaliações e comentários dos clientes |
-| `olist_products_dataset.csv` | Dados dos produtos (categoria e dimensões) |
-| `olist_sellers_dataset.csv` | Informações dos vendedores |
-| `olist_geolocation_dataset.csv` | Coordenadas geográficas por CEP |
-| `product_category_name_translation.csv` | Tradução das categorias para o inglês |
+| fixed acidity | Acidez fixa |
+| volatile acidity | Acidez volátil — nível alto indica sabor de vinagre |
+| citric acid | Ácido cítrico — frescor e sabor |
+| residual sugar | Açúcar residual após fermentação |
+| chlorides | Cloretos (cloreto de sódio) |
+| free sulfur dioxide | SO₂ livre — preservação contra oxidação |
+| total sulfur dioxide | SO₂ total |
+| density | Densidade — influenciada por açúcar e álcool |
+| pH | Nível de acidez |
+| sulphates | Sulfatos — preservação e características sensoriais |
+| alcohol | Teor alcoólico |
+| **quality** | **Nota 0–10 atribuída por especialistas (variável alvo)** |
 
-## Metodologia
-
-A análise foi conduzida em etapas estruturadas:
-
-- **Integração** — cruzamento das tabelas do dataset por chaves de relacionamento (pedido, cliente, produto, vendedor)
-- **Tratamento** — padronização de tipos de dados, remoção de inconsistências e normalização de campos geográficos
-- **Construção de métricas** — cálculo de receita líquida, ticket médio, proxy de rentabilidade e indicadores logísticos
-- **Análise exploratória (EDA)** — visualizações e estatísticas descritivas para identificar padrões e anomalias
-
-O objetivo foi garantir consistência, qualidade e reprodutibilidade dos resultados.
+> Baixe o `WineQT.csv` no link acima e coloque em `data/raw/`.
 
 ---
 
-## Principais Análises
+## Pipeline do Projeto
 
-As análises foram organizadas em quatro dimensões de negócio:
+### 1. Compreensão do Problema (Alexandre + Allison)
+- Contexto da indústria vitivinícola
+- Definição da variável alvo e binarização
+- `quality_bin = 1 se quality ≥ 7, senão 0`
 
-- **Receita e crescimento por categoria** — quais categorias geram mais valor e apresentam maior potencial de expansão
-- **Ticket médio e rentabilidade por estado** — comparativo entre regiões, identificando onde o negócio é mais lucrativo
-- **Eficiência logística** — tempo médio de entrega por região e impacto na satisfação do cliente
-- **Avaliação do cliente e valor do pedido** — relação entre nota de satisfação e comportamento de compra
+### 2. Análise Exploratória de Dados — EDA (Alexandre)
+- Distribuição das variáveis e correlações
+- Detecção de outliers (IQR)
+- Análise de balanceamento: **984 (Baixa/Média) vs 159 (Alta)** → base desbalanceada
+- Principais correlações: `alcohol` ↑ e `volatile_acidity` ↓
 
-Essas dimensões foram analisadas de forma integrada para identificar os principais drivers de performance do negócio.
+### 3. Pré-processamento — ETL (Allison)
+- Tratamento de dados faltantes e padronização
+- Normalização de variáveis numéricas
+- Exportação do `dataset_tratado.csv`
 
----
+### 4. Modelos de ML — KNN e Decision Tree (Gusthavo)
+- K-Nearest Neighbors
+- Decision Tree
+- Métricas de avaliação
 
-## Principais Insights
-
-- **Concentração no Sudeste:** a região concentra o maior volume de vendas, mas o Norte e o Nordeste apresentam ticket médio mais elevado
-- **Trade-off logístico:** regiões mais distantes dos centros de distribuição têm prazos de entrega significativamente maiores, impactando a satisfação e a recorrência de compra
-- **Avaliação como alavanca de receita:** pedidos com nota igual ou superior a 4 apresentam valor médio até **6% maior**, indicando que a experiência do cliente influencia diretamente o gasto
-- **Oportunidade regional:** estados do Norte e Nordeste, apesar do menor volume, apresentam ticket médio elevado — potencial de rentabilidade com investimento em infraestrutura logística
-
----
-
-## Recomendações Estratégicas
-
-### Curto prazo (0 a 6 meses)
-- Implementar ações para elevar a nota média dos produtos para o patamar de 4 ou mais (resposta rápida, qualidade de embalagem, comunicação pós-venda)
-- Otimizar a logística de última milha nas regiões de maior volume (SP, RJ, MG)
-- Concentrar esforços de marketing nas categorias líderes de receita para maximizar retorno imediato
-
-### Médio prazo (6 a 18 meses)
-- Expandir o portfólio nas categorias com maior crescimento no período analisado
-- Desenvolver estratégias de precificação para aumentar o ticket médio nas regiões de maior volume
-- Investir em parcerias logísticas regionais para reduzir o prazo de entrega no Norte e Nordeste
-
-### Longo prazo (acima de 18 meses)
-- Fortalecer centros de distribuição nas regiões estratégicas
-- Desenvolver segmentos premium com produtos de maior valor agregado
-- Evoluir a capacidade analítica para uso preditivo dos dados (demanda, retenção e precificação dinâmica)
+### 5. Modelos de ML — Random Forest e SVM (Caio) ← *a fazer*
+- Random Forest com GridSearchCV
+- SVM com `probability=True` para ROC
+- SMOTE para desbalanceamento
+- Comparativo de modelos com ROC/AUC
 
 ---
 
 ## Estrutura do Repositório
 
 ```
-tech_challenge_data_analytics/
-│
-├── notebooks/
-│   ├── analise_logistica_rentabilidade_regioes_Caio_Bosnic.ipynb
-│   ├── analise_Receita_Olist_TechChallenge_Alexandre_Amorim.ipynb
-│   ├── analise_precos_por_nota_Gusthavo_Soares.ipynb
-│   └── regioes_maiores_rentabilidade_Allison_Lima.ipynb
+tech_challenge_data_analytics_2/
 │
 ├── data/
-│   ├── olist_customers_dataset.csv
-│   ├── olist_orders_dataset.csv
-│   ├── olist_order_items_dataset.csv
-│   ├── olist_order_payments_dataset.csv
-│   ├── olist_order_reviews_dataset.csv
-│   ├── olist_products_dataset.csv
-│   ├── olist_sellers_dataset.csv
-│   ├── olist_geolocation_dataset.csv
-│   └── product_category_name_translation.csv
+│   ├── raw/
+│   │   └── WineQT.csv              # Baixar do Kaggle (link acima)
+│   └── processed/
+│       └── dataset_tratado.csv     # Pós-ETL (Allison)
 │
+├── notebooks/
+│   ├── 01_EDA_Alexandre.ipynb      # EDA — Alexandre Amorim
+│   ├── 02_EDA_ETL_Allison.ipynb    # ETL — Allison Lima
+│   ├── 03_ML_Gusthavo_Soares.ipynb # KNN + Decision Tree — Gusthavo (baixar do Colab)
+│   └── 04_ML_Caio_Bosnic.ipynb     # Random Forest + SVM — Caio (a fazer)
+│
+├── src/                            # Scripts auxiliares
+├── results/                        # Gráficos e métricas dos modelos
+├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## Como Executar o Projeto
+## Executar no Google Colab
 
-**Pré-requisitos:** Python 3.8+, Jupyter Notebook ou JupyterLab
+| Notebook | Responsável | Link |
+|---|---|---|
+| EDA | Alexandre Amorim | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/01_EDA_Alexandre.ipynb) |
+| ETL | Allison Lima | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/02_EDA_ETL_Allison.ipynb) |
+| KNN + Decision Tree | Gusthavo Soares | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pbpeeaBWaDZ-gIBZTdMuuoYVcpb8PxDc?usp=sharing) |
+| Random Forest + SVM | Caio Bosnic | *(a fazer)* |
 
-1. Clone o repositório:
+---
 
-   ```bash
-   git clone https://github.com/caiobosnic/tech_challenge_data_analytics_caio.git
-   cd tech_challenge_data_analytics
-   ```
+## Como Executar Localmente
 
-2. Instale as dependências necessárias:
+```bash
+git clone https://github.com/caiobosnic/tech_challenge_data_analytics_caio.git
+cd tech_challenge_data_analytics_caio
+pip install -r requirements.txt
+jupyter notebook
+```
 
-   ```bash
-   pip install pandas numpy matplotlib seaborn pyspark
-   ```
+**Ordem de execução:**
+1. `01_EDA_Alexandre.ipynb`
+2. `02_EDA_ETL_Allison.ipynb`
+3. `03_ML_Gusthavo_Soares.ipynb`
+4. `04_ML_Caio_Bosnic.ipynb`
 
-3. Abra o ambiente Jupyter:
+---
 
-   ```bash
-   jupyter notebook
-   ```
+## Entregáveis
 
-4. Execute os notebooks na pasta `notebooks/` na seguinte ordem sugerida:
-   - `analise_logistica_rentabilidade_regioes_Caio_Bosnic.ipynb`
-   - `analise_Receita_Olist_TechChallenge_Alexandre_Amorim.ipynb`
-   - `analise_precos_por_nota_Gusthavo_Soares.ipynb`
-   - `regioes_maiores_rentabilidade_Allison_Lima.ipynb`
-
-> Os arquivos de dados estão disponíveis na pasta `data/` e são utilizados diretamente pelos notebooks para garantir reprodutibilidade das análises.
-
-## ☁️ Executar no Google Colab
-
-Os notebooks podem ser executados diretamente no Google Colab, sem necessidade de instalação local:
-
-### 📊 Análises
-
-- Receita e Categorias  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/analise_Receita_Olist_TechChallenge_Alexandre_Amorim.ipynb)
-
-- Logística e Rentabilidade  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/analise_logistica_rentabilidade_regioes_Caio_Bosnic.ipynb)
-
-- Preços e Avaliações  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/analise_precos_por_nota_Gusthavo_Soares.ipynb)
-
-- Rentabilidade por Região  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/regioes_maiores_rentabilidade_Allison_Lima.ipynb)
-
-> Nota: pode ser necessário ajustar os caminhos dos arquivos ou fazer upload manual dos dados no ambiente do Colab.
+| Entregável | Link |
+|---|---|
+| Repositório GitHub | [tech_challenge_data_analytics_caio](https://github.com/caiobosnic/tech_challenge_data_analytics_caio) |
+| Apresentação Executiva (PPT/PDF) | *(adicionar no repositório em `results/`)* |
+| Vídeo Executivo (≤ 5 min) | *(adicionar link)* |
 
 ---
 
 ## Autores
 
-| Nome | RM | Área de Análise |
-|---|---:|---|
-| Alexandre de Souza Amorim | 372077 | Receita e Crescimento por Categoria |
-| Allison Lima | 372648 | Regiões de Maior Rentabilidade |
-| Caio Rodrigues Bosnic Barbosa | 372603 | Logística e Rentabilidade por Região |
-| Gusthavo Lourenço Rios Soares | 371911 | Preços e Avaliações de Clientes |
+| Nome | RM | Contribuição |
+|---|---|---|
+| Alexandre de Souza Amorim | 372077 | EDA — Análise Exploratória |
+| Allison Lima | 372648 | ETL — Pré-processamento |
+| Caio Rodrigues Bosnic Barbosa | 372603 | ML — Random Forest + SVM |
+| Gusthavo Lourenço Rios Soares | 371911 | ML — KNN + Decision Tree |
 
-**FIAP – Pós-Tech em Data Analytics**
+**FIAP — Pós-Tech em Data Analytics | Fase 2**
