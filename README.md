@@ -81,8 +81,7 @@ tech_challenge_data_analytics_2/
 │   ├── raw/
 │   │   └── WineQT.csv                       # Dataset original ✅
 │   └── processed/
-│       ├── dataset_tratado.csv              # ETL Allison ✅
-│       └── dataset_tratado_Alexandre.csv    # EDA Alexandre com quality_bin ✅
+│       └── dataset_tratado.csv              # Dataset pós-ETL com quality_bin ✅
 │
 ├── notebooks/
 │   ├── 01_EDA_Alexandre.ipynb               # EDA — Alexandre Amorim ✅
@@ -117,8 +116,8 @@ tech_challenge_data_analytics_2/
 ## Como Executar Localmente
 
 ```bash
-git clone https://github.com/caiobosnic/tech_challenge_data_analytics_caio.git
-cd tech_challenge_data_analytics_caio
+git clone https://github.com/caiobosnic/tech_challenge_data_analytics_fase_2.git
+cd tech_challenge_data_analytics_fase_2
 pip install -r requirements.txt
 jupyter notebook
 ```
