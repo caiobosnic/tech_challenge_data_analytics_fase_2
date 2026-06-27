@@ -64,11 +64,11 @@ Desenvolver um modelo de classificação capaz de prever a qualidade de um vinho
 - Decision Tree
 - Métricas de avaliação
 
-### 5. Modelos de ML — Random Forest e SVM (Caio) ← *a fazer*
-- Random Forest com GridSearchCV
-- SVM com `probability=True` para ROC
-- SMOTE para desbalanceamento
-- Comparativo de modelos com ROC/AUC
+### 5. Modelos de ML — Random Forest e SVM (Caio)
+- Random Forest com GridSearchCV (54 combinações, 5-fold estratificado)
+- SVM com kernel RBF e `probability=True` para curva ROC
+- SMOTE aplicado antes do split para balancear [984, 159] → [984, 984]
+- Comparativo final dos 4 modelos (DT, KNN, RF, SVM) com Accuracy, F1 e AUC-ROC
 
 ---
 
@@ -87,7 +87,7 @@ tech_challenge_data_analytics_2/
 │   ├── 01_EDA_Alexandre.ipynb               # EDA — Alexandre Amorim ✅
 │   ├── 02_EDA_ETL_Allison.ipynb             # ETL — Allison Lima ✅
 │   ├── 03_ML_Gusthavo_Soares.ipynb          # KNN + Decision Tree — Gusthavo ✅
-│   └── 04_ML_Caio_Bosnic.ipynb              # Random Forest + SVM — Caio 🔜
+│   └── 04_ML_Caio_Bosnic.ipynb              # Random Forest + SVM — Caio ✅
 │
 ├── src/                                     # Scripts auxiliares
 ├── results/
@@ -95,7 +95,12 @@ tech_challenge_data_analytics_2/
 │   ├── 02_boxplots_outliers.png             # Boxplots ✅
 │   ├── 03_balanceamento_classes.png         # Desbalanceamento ✅
 │   ├── 04_heatmap_correlacao.png            # Correlações ✅
-│   └── 05_scatter_features_relevantes.png  # Alcohol + Volatile Acidity ✅
+│   ├── 05_scatter_features_relevantes.png  # Alcohol + Volatile Acidity ✅
+│   ├── 06_cm_random_forest.png             # Matriz de Confusão RF ✅
+│   ├── 07_feature_importance_rf.png        # Importância de Features RF ✅
+│   ├── 08_cm_svm.png                       # Matriz de Confusão SVM ✅
+│   ├── 09_roc_comparativo.png             # Curva ROC — 4 modelos ✅
+│   └── 10_comparativo_metricas.png        # Comparativo Accuracy/F1/AUC ✅
 ├── requirements.txt
 └── README.md
 ```
@@ -109,7 +114,7 @@ tech_challenge_data_analytics_2/
 | EDA | Alexandre Amorim | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/01_EDA_Alexandre.ipynb) |
 | ETL | Allison Lima | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/02_EDA_ETL_Allison.ipynb) |
 | KNN + Decision Tree | Gusthavo Soares | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_fase_2/blob/main/notebooks/03_ML_Gusthavo_Soares.ipynb) |
-| Random Forest + SVM | Caio Bosnic | *(a fazer)* |
+| Random Forest + SVM | Caio Bosnic | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_fase_2/blob/main/notebooks/04_ML_Caio_Bosnic.ipynb) |
 
 ---
 
