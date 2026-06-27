@@ -86,7 +86,7 @@ tech_challenge_data_analytics_2/
 ├── notebooks/
 │   ├── 01_EDA_Alexandre.ipynb               # EDA — Alexandre Amorim ✅
 │   ├── 02_EDA_ETL_Allison.ipynb             # ETL — Allison Lima ✅
-│   ├── 03_ML_Gusthavo_Soares.ipynb          # KNN + Decision Tree — Gusthavo ⚠️ baixar do Colab
+│   ├── 03_ML_Gusthavo_Soares.ipynb          # KNN + Decision Tree — Gusthavo ✅
 │   └── 04_ML_Caio_Bosnic.ipynb              # Random Forest + SVM — Caio 🔜
 │
 ├── src/                                     # Scripts auxiliares
@@ -108,7 +108,7 @@ tech_challenge_data_analytics_2/
 |---|---|---|
 | EDA | Alexandre Amorim | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/01_EDA_Alexandre.ipynb) |
 | ETL | Allison Lima | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_caio/blob/main/notebooks/02_EDA_ETL_Allison.ipynb) |
-| KNN + Decision Tree | Gusthavo Soares | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pbpeeaBWaDZ-gIBZTdMuuoYVcpb8PxDc?usp=sharing) |
+| KNN + Decision Tree | Gusthavo Soares | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caiobosnic/tech_challenge_data_analytics_fase_2/blob/main/notebooks/03_ML_Gusthavo_Soares.ipynb) |
 | Random Forest + SVM | Caio Bosnic | *(a fazer)* |
 
 ---
