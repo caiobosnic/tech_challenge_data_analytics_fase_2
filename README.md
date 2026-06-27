@@ -36,7 +36,7 @@ Desenvolver um modelo de classificação capaz de prever a qualidade de um vinho
 | alcohol | Teor alcoólico |
 | **quality** | **Nota 0–10 atribuída por especialistas (variável alvo)** |
 
-> Baixe o `WineQT.csv` no link acima e coloque em `data/raw/`.
+> `WineQT.csv` disponível em `data/raw/` ✅
 
 ---
 
@@ -49,14 +49,15 @@ Desenvolver um modelo de classificação capaz de prever a qualidade de um vinho
 
 ### 2. Análise Exploratória de Dados — EDA (Alexandre)
 - Distribuição das variáveis e correlações
-- Detecção de outliers (IQR)
-- Análise de balanceamento: **984 (Baixa/Média) vs 159 (Alta)** → base desbalanceada
-- Principais correlações: `alcohol` ↑ e `volatile_acidity` ↓
+- Detecção de outliers via IQR: `residual_sugar` (9.6%) e `chlorides` (6.7%) com maior incidência
+- Balanceamento: **984 Baixa/Média (86.1%) vs 159 Alta (13.9%)** → base desbalanceada
+- Principais correlações com `quality`: `alcohol` ↑ e `volatile_acidity` ↓
+- Gráficos gerados em `results/`
 
 ### 3. Pré-processamento — ETL (Allison)
-- Tratamento de dados faltantes e padronização
-- Normalização de variáveis numéricas
-- Exportação do `dataset_tratado.csv`
+- Zero valores nulos encontrados
+- Binarização: `quality_bin = 1 se quality ≥ 7, senão 0`
+- Exportação do `dataset_tratado.csv` em `data/processed/`
 
 ### 4. Modelos de ML — KNN e Decision Tree (Gusthavo)
 - K-Nearest Neighbors
@@ -78,18 +79,24 @@ tech_challenge_data_analytics_2/
 │
 ├── data/
 │   ├── raw/
-│   │   └── WineQT.csv              # Baixar do Kaggle (link acima)
+│   │   └── WineQT.csv                       # Dataset original ✅
 │   └── processed/
-│       └── dataset_tratado.csv     # Pós-ETL (Allison)
+│       ├── dataset_tratado.csv              # ETL Allison ✅
+│       └── dataset_tratado_Alexandre.csv    # EDA Alexandre com quality_bin ✅
 │
 ├── notebooks/
-│   ├── 01_EDA_Alexandre.ipynb      # EDA — Alexandre Amorim
-│   ├── 02_EDA_ETL_Allison.ipynb    # ETL — Allison Lima
-│   ├── 03_ML_Gusthavo_Soares.ipynb # KNN + Decision Tree — Gusthavo (baixar do Colab)
-│   └── 04_ML_Caio_Bosnic.ipynb     # Random Forest + SVM — Caio (a fazer)
+│   ├── 01_EDA_Alexandre.ipynb               # EDA — Alexandre Amorim ✅
+│   ├── 02_EDA_ETL_Allison.ipynb             # ETL — Allison Lima ✅
+│   ├── 03_ML_Gusthavo_Soares.ipynb          # KNN + Decision Tree — Gusthavo ⚠️ baixar do Colab
+│   └── 04_ML_Caio_Bosnic.ipynb              # Random Forest + SVM — Caio 🔜
 │
-├── src/                            # Scripts auxiliares
-├── results/                        # Gráficos e métricas dos modelos
+├── src/                                     # Scripts auxiliares
+├── results/
+│   ├── 01_distribuicao_features.png         # Histogramas ✅
+│   ├── 02_boxplots_outliers.png             # Boxplots ✅
+│   ├── 03_balanceamento_classes.png         # Desbalanceamento ✅
+│   ├── 04_heatmap_correlacao.png            # Correlações ✅
+│   └── 05_scatter_features_relevantes.png  # Alcohol + Volatile Acidity ✅
 ├── requirements.txt
 └── README.md
 ```
@@ -128,7 +135,7 @@ jupyter notebook
 
 | Entregável | Link |
 |---|---|
-| Repositório GitHub | [tech_challenge_data_analytics_caio](https://github.com/caiobosnic/tech_challenge_data_analytics_caio) |
+| Repositório GitHub | [tech_challenge_data_analytics_fase_2](https://github.com/caiobosnic/tech_challenge_data_analytics_fase_2) |
 | Apresentação Executiva (PPT/PDF) | *(adicionar no repositório em `results/`)* |
 | Vídeo Executivo (≤ 5 min) | *(adicionar link)* |
 
